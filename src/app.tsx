@@ -28,7 +28,7 @@ const task_list = [
   },
 ];
 
-export function TaskTable({ tasks }: TasksListProps) {
+export function TaskTable({ tasks }: { tasks: Task[] }) {
   return (
     <Table>
       <TableCaption>A list of all your tasks</TableCaption>
@@ -43,11 +43,11 @@ export function TaskTable({ tasks }: TasksListProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tasks.tasks.map((task) => (
+        {tasks.map((task) => (
           <TableRow key={task.id}>
             {/* <TableCell className="font-medium">{task.id}</TableCell> */}
             <TableCell>{task.name}</TableCell>
-            <TableCell>{task.discription}</TableCell>
+            <TableCell>{task.description}</TableCell>
             <TableCell>{task.status}</TableCell>
             <TableCell className="text-right">{task.category}</TableCell>
             {/* <TableCell>{task.discription}</TableCell> */}
@@ -63,14 +63,14 @@ export function TaskTable({ tasks }: TasksListProps) {
     </Table>
   );
 }
-type Task = {
+interface Task {
+  id: number;
   name: String;
-  discription: String;
+  description: String;
   status: String;
-};
-interface TasksListProps {
-  tasks: Task[]; // Array of Task objects
+  category: String;
 }
+
 export default function App() {
   const [tasks, setTasks] = React.useState([]);
   React.useEffect(() => {
@@ -79,7 +79,7 @@ export default function App() {
       .then((data) => setTasks(data))
       .catch((err) => console.log(err));
   }, []);
-  console.log(tasks);
+  console.log(tasks[0]);
   return (
     <div className="w-screen h-screen  flex flex-col justify-center items-center">
       <TaskTable tasks={tasks} />
